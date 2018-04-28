@@ -295,6 +295,7 @@ class Scene(object):
         self.fileSystemWatcher_scene = QFileSystemWatcher()
         self.fileSystemWatcher_scene.fileChanged.connect(self._reload)
         templatePath = TemplateForScene(self.__filePath)
+        templatePath = templatePath.replace('\\', '/')
         self.fileSystemWatcher_scene.addPath(templatePath)
 
         self.__errorDialog = QDialog()  # error log
@@ -324,6 +325,7 @@ class Scene(object):
             if not os.path.exists(path):
                 # the scene has been deleted, stop watching it
                 return
+            path = path.replace('\\', '/')
             self.fileSystemWatcher_scene.addPath(path)
 
         self.passes = _deserializePasses(self.__filePath)
@@ -334,6 +336,7 @@ class Scene(object):
         for passData in self.passes:
             newStitches = (set(passData.vertStitches) | set(passData.fragStitches)) - watched
             if newStitches:
+                newStitches = set(f.replace('\\', '/') for f in newStitches)
                 self.fileSystemWatcher.addPaths(list(newStitches))
                 watched |= newStitches
 
@@ -367,6 +370,7 @@ class Scene(object):
             if not os.path.exists(path):
                 # the scene has been deleted, stop watching it
                 return
+            path = path.replace('\\', '/')
             self.fileSystemWatcher.addPath(path)
             path = os.path.abspath(path)
 
@@ -391,6 +395,7 @@ class Scene(object):
 
             vertCode = []
             for stitch in passData.vertStitches:
+                stitch = stitch.replace('\\', '/')
                 try:
                     vertCode.append(_loadGLSLWithIncludes(stitch, includePaths))
                 except IOError as e:
@@ -398,6 +403,7 @@ class Scene(object):
 
             fragCode = []
             for stitch in passData.fragStitches:
+                stitch = stitch.replace('\\', '/')
                 try:
                     fragCode.append(_loadGLSLWithIncludes(stitch, includePaths))
                 except IOError as e:
@@ -408,6 +414,7 @@ class Scene(object):
                 return
 
             if includePaths:
+                includePaths = set(f.replace('\\', '/') for f in includePaths)
                 self.fileSystemWatcher.addPaths(list(includePaths))
 
             # not joining causes "unexpected $undefined" errors during shader compilation,

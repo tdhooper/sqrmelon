@@ -191,6 +191,7 @@ class SceneList(QWidget):
                 resource = os.path.join(templateDir, xElement.attrib['path'])
                 text = ''
                 # copy template data if there is any
+                resource = resource.replace('\\', '/')
                 if os.path.exists(resource):
                     with open(resource) as fh:
                         text = fh.read()

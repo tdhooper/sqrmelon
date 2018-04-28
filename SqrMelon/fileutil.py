@@ -4,6 +4,7 @@ from contextlib import contextmanager
 
 @contextmanager
 def edit(filePath, flag='w'):
+    filePath = filePath.replace('\\', '/')
     """
     Open a file for writing and forces it to be writable.
     :type filePath: str
@@ -17,6 +18,7 @@ def edit(filePath, flag='w'):
 
 
 def create(filePath):
+    filePath = filePath.replace('\\', '/')
     """
     Make sure the given directory tree & file exist.
     To just create a directory tree, end in a trailing slash.

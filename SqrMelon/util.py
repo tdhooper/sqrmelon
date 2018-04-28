@@ -12,6 +12,8 @@ SCENE_EXT = '.xml'
 
 
 def ParseXMLWithIncludes(xmlFilePath):
+    xmlFilePath = xmlFilePath.replace('\\', '/')
+
     with open(xmlFilePath) as fh:
         text = fh.read()
 
