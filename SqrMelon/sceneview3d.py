@@ -30,7 +30,12 @@ class SceneView(QGLWidget):
         """
         :type overlays: Overlays
         """
-        super(SceneView, self).__init__()
+
+        glFormat = QGLFormat()
+        glFormat.setVersion(4, 5)
+        glFormat.setProfile(QGLFormat.CoreProfile)
+
+        super(SceneView, self).__init__(glFormat)
 
         self._timer = timer
         self._animator = shotManager
